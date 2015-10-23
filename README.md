@@ -19,3 +19,7 @@ This app is the Framework7 version of the iTunes Media Explorer for sample purpo
 - [cordova-plugin-x-socialsharing](https://www.npmjs.com/package/cordova-plugin-x-socialsharing)
 - [cordova-plugin-media](https://www.npmjs.com/package/cordova-plugin-media)
 
+![](resources/screenshots/ss1_iphone6_spacegrey_portrait.png)
+![](resources/screenshots/ss2_iphone6_spacegrey_portrait.png)
+![](resources/screenshots/ss4_iphone6_spacegrey_portrait.png)
+![](resources/screenshots/ss5_iphone6_spacegrey_portrait.png)
