@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>iTunes Media Explorer</title>
+
+    <link rel="stylesheet" href="lib/framework7/css/framework7.ios.min.css">
+    <link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.min.css">
+    <!-- Using font-awesome library for icons -->
+    <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/my-app.css">
+</head>
+
+<!--<body class="theme-green layout-dark">-->
+<body class="layout-dark">
+    <!-- Status bar overlay for iOS7 issue - see my-app.css for background color setting and config.xml -->
+    <div class="statusbar-overlay"></div>
+
+    <!-- Panels overlay - used for side menu and any other panels to slide out from either side-->
+    <div class="panel-overlay"></div>
+
+    <!-- Left panel menu with reveal effect (could also use a panel-cover effect)-->
+    <div class="panel panel-left panel-reveal">
+        <div class="list-block">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"> <i class="icon fa fa-cog"></i></div>
+                        <div class="item-inner">
+                            <div id="settings" class="item-title label">Settings</div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon fa fa-star"></i></div>
+                        <div class="item-inner">
+                            <div id="favorites" class="item-title label">Favorites</div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon fa fa-info-circle"></i></div>
+                        <div class="item-inner">
+                            <div id="about" class="item-title label">About</div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Views-->
+    <div class="views">
+        <!-- Main view-->
+        <div class="view view-main">
+            <!-- Top Navigation Bar-->
+            <div class="navbar" >
+                <div class="navbar-inner">
+                    <!-- Home navbar -->
+                    <div class="left ">
+                        <!-- Left side navbar contains only icon -->
+                        <a href="#" class="link icon-only open-panel">
+                            <i class="icon icon-bars"></i>
+                        </a>
+                    </div>
+                    <div class="center sliding">iTunes Media Explorer</div>
+                </div>
+            </div>
+
+            <!-- Pages - Fixed navbar and toolbar throughout all pages in this view stack-->
+            <div class="pages navbar-through toolbar-through">
+                <!-- Page, data-page contains page name-->
+                <div data-page="index" class="page">
+                    <!-- Scrollable page content-->
+                    <div class="page-content">
+                        <div class="content-block-title">Criteria</div>
+                        <div class="list-block">
+                            <ul>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                                        <div class="item-inner">
+                                            <div class="item-title label">Search</div>
+                                            <div class="item-input">
+                                                <input id="term" type="text" placeholder="Search for..."/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-media"><i class="icon icon-form-toggle"></i></div>
+                                        <div class="item-inner">
+                                            <div class="item-title label">Return Explicit?</div>
+                                            <div class="item-input">
+                                                <label class="label-switch">
+                                                    <input id="explicit" type="checkbox"/>
+                                                    <div class="checkbox"></div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-media"><i class="icon icon-form-settings"></i></div>
+                                        <div class="item-inner">
+                                            <div class="item-title label">Max Results</div>
+                                            <div class="item-input">
+                                                <div class="range-slider">
+                                                    <input id="numResults" type="range" min="0" max="50" value="25" step="1"/>
+                                                </div>
+                                            </div>
+                                            <div class="item-input">
+                                                <input id="sliderVal" type="text" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <div class="content-block-title">Media Type</div>
+                            <div class="list-block">
+                                <ul>
+                                    <li>
+                                        <label class="label-radio item-content">
+                                            <input type="radio" name="ks-radio" value="song" checked="checked"/>
+                                            <div class="item-inner">
+                                                <div class="item-title">Song</div>
+                                            </div>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="label-radio item-content">
+                                            <input type="radio" name="ks-radio" value="musicVideo"/>
+                                            <div class="item-inner">
+                                                <div class="item-title">Music Video</div>
+                                            </div>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="label-radio item-content">
+                                            <input type="radio" name="ks-radio" value="audiobook"/>
+                                            <div class="item-inner">
+                                                <div class="item-title">Audio Book</div>
+                                            </div>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="content-block">
+                            <div class="row">
+                                <div class="col-100">
+                                    <input id="btnSearch" type="submit" value="Submit" class="button button-big button-fill color-green"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Toolbar on every view -->
+            <div class="toolbar">
+                <div class="toolbar-inner">
+                    <a href="http://www.idangero.us/framework7" class="link external">Powered by Framework7</a>
+                    <a href="#" class="link"></a> <!-- placeholder -->
+                    <a href="http://www.idangero.us/framework7" class="link external">
+                        <i class="icon icon-f7"></i>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--------------------------->
+    <!--   TEMPLATES SECTION  --->
+    <!--------------------------->
+
+    <!-- Media List Template  -->
+    <script id="listTemplate" type="text/template7">
+        <ul>
+            {{#each this}}
+            <li class="swipeout">
+                <div class="swipeout-content">
+                    <a href='item.html?itemNum={{@index}}' class="item-content item-link">
+
+                        <div class="item-media">
+                            <img src="{{artworkUrl60}}" class="lazy">
+                        </div>
+
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">{{trackName}}</div>
+
+                                {{#if trackPrice>-1}}
+                                    <div class="item-after">${{trackPrice}}</div>
+                                {{else}}
+                                    <div class="item-after">${{collectionPrice}}</div>
+                                {{/if}}
+
+                            </div>
+                            <div class="item-subtitle">{{artistName}}</div>
+                            <div class="item-text">{{collectionName}}</div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="swipeout-actions-right">
+                    <a href="#" class="bg-orange"><i class="icon fa fa-star fa-2x favorite" data-item="{{@index}}"></i></a>
+                    <a href="#" class="bg-blue"><i class="icon fa fa-share fa-2x share" data-item="{{@index}}"></i></a>
+                </div>
+                <div class="swipeout-actions-left">
+                    <a href="#" class="bg-green"><i class="icon fa fa-play fa-2x preview" data-item="{{@index}}"></i></a>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
+    </script>
+
+    <!-- Media Item Template -->
+    <script id="itemTemplate" type="text/template7">
+        <ul>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><img src="{{artworkUrl60}}" class="lazy"/></div>
+                    <div class="item-inner">
+                        <div class="item-title">{{trackName}}</div>
+                    </div>
+                </div>
+
+                <div class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title label">Type</div>
+                        <div class="item-title label">{{kind}}</div>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title label">Artist</div>
+                        <div class="item-title label">{{artistName}}</div>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title label">Price</div>
+                        <div class="item-title label">${{trackPrice}}</div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="content-block-title">Collection Details</div>
+        <div class="list-block">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">Collection</div>
+                            <div class="item-title label">{{collectionName}}</div>
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">Genre</div>
+                            <div class="item-title label">{{primaryGenreName}}</div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="content-block-title">Preview</div>
+        <div class="content-block inset scroll">
+            <div class="content-block-inner">
+                <div id="previewAudio">
+                    <audio controls preload src="{{previewUrl}}"></audio>
+                </div>
+                <div id="previewVideo">
+                    <video controls type="video/mp4" src="{{previewUrl}}" width="250" height="150"></video>
+                </div>
+                <div id="desc">
+                    <p>{{description}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer bottom">
+            <a id="like" href="#" class="item-media link"><i class="icon fa fa-thumbs-up fa-2x"></i> </a>
+            <a href="#" class="share item-media link"><i class="icon fa fa-external-link fa-2x"></i></a>
+        </div>
+
+    </script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
+    <script type="text/javascript" src="js/my-app.js"></script>
+</body>
+
+</html>
