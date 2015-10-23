@@ -34,8 +34,18 @@ i.icon.icon-plus {
     color: #6d6d72;
     margin: 18px 15px 10px;
 }
+.list-block .item-title {
+    -webkit-flex-shrink: 1;
+    -ms-flex: 0 1 auto;
+    flex-shrink: 1;
+    white-space: inherit;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
 .list-block .item-title.label {
-    width: 55%;
+    width: 50%;
     -webkit-flex-shrink: 0;
     -ms-flex: 0 0 auto;
     flex-shrink: 0;

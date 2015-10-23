@@ -256,7 +256,11 @@
                 <div class="item-content">
                     <div class="item-inner">
                         <div class="item-title label">Price</div>
+                        {{#if trackPrice>-1}}
                         <div class="item-title label">${{trackPrice}}</div>
+                        {{else}}
+                        <div class="item-title label">${{collectionPrice}}</div>
+                        {{/if}}
                     </div>
                 </div>
             </li>

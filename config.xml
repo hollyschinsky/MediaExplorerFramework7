@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="MediaExplorerFramework7" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="org.devgirl.framework7.mediaexplorer" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>org.devgirl.mediaexplorer.framework7</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -68,6 +68,7 @@
         <splash src="resources/ios/splash/Default~iphone.png" width="320" height="480"/>
     </platform>
 
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     <preference name="DisallowOverscroll" value="true" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <plugin name="cordova-plugin-statusbar" spec="~1.0.1" />
