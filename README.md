@@ -1,9 +1,8 @@
-Framework7 Sample App - iTunes Media Finder
-=============================================
+Framework7+PhoneGap Sample App
+==============================
 
-A sample PhoneGap App built wth [Framework7](http://www.idangero.us/framework7/).
-
-This app is the Framework7 version of the iTunes Media Explorer for sample purposes. It uses the [iTunes Search API](https://www.apple.com/itunes/affiliates/resources/documentation/itunes-store-web-service-search-api.html)
+###iTunes Media Finder
+This app is the [Framework7](http://www.idangero.us/framework7/) version of the iTunes Media Explorer for sample purposes. It uses the [iTunes Search API](https://www.apple.com/itunes/affiliates/resources/documentation/itunes-store-web-service-search-api.html)
  to query different types of media based on search criteria entered and allows you to view, preview, share the items returned.
 
 ![](resources/screenshots/app-screens2.png)
