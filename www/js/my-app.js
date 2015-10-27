@@ -2,13 +2,13 @@
 var myApp = new Framework7({
     precompileTemplates: true
 
+
 })
-// Export selectors engine (jQuery ish w/out the bloat)
+// Export selectors engine (jQuery ish )
 var $$ = Dom7;
 
-// Add any views, including the main
+// Add views - this app uses only a main view stack
 var mainView = myApp.addView('.view-main', {
-    // Because we use fixed-through navbar we can enable dynamic navbar
     dynamicNavbar: true
 });
 
@@ -150,7 +150,8 @@ $$(document).on('click', '#btnSearch', function (e) {
     }
     else {
         mediaResults = {};
-        var explicit = $$("#explicit").val() == "on" ? 'yes' : 'no';
+        //var explicit = $$("#explicit").val() == "on" ? 'yes' : 'no'; // always returning on, why? Bug in f7?
+        var explicit = $$("#explicit")[0].checked ? 'yes' : 'no';
         var mediaType = $$("input[name='ks-radio']:checked").val()
         var numResults = $$("#numResults").val()
         var url = "https://itunes.apple.com/search?entity=" + mediaType + "&term=" + term + "&explicit=" + explicit + "&limit=" + numResults + "&callback=?";
@@ -164,6 +165,7 @@ $$(document).on('click', '#btnSearch', function (e) {
 /*
     Menu Handlers
 */
+
 $$(document).on('click', '#favorites', function (e) {
     alert('Show my favorites');
 });
@@ -174,4 +176,9 @@ $$(document).on('click', '#about', function (e) {
 
 $$(document).on('click', '#settings', function (e) {
     alert('Show Settings');
+});
+$$(document).on('click', '#home', function (e) {
+    mainView.router.load({pageName: 'index'});
+    // The above will auto close panel but not if we use the loader above - have to specify close
+    myApp.closePanel();
 });

@@ -26,27 +26,35 @@
     <div class="panel panel-left panel-reveal">
         <div class="list-block">
             <ul>
-                <li>
+                <li id="settings">
                     <div class="item-content">
                         <div class="item-media"> <i class="icon fa fa-cog"></i></div>
                         <div class="item-inner">
-                            <div id="settings" class="item-title label">Settings</div>
+                            <div class="item-title label">Settings</div>
                         </div>
                     </div>
                 </li>
-                <li>
+                <li id="favorites" >
                     <div class="item-content">
                         <div class="item-media"><i class="icon fa fa-star"></i></div>
                         <div class="item-inner">
-                            <div id="favorites" class="item-title label">Favorites</div>
+                            <div class="item-title label">Favorites</div>
                         </div>
                     </div>
                 </li>
-                <li>
+                <li id="about">
                     <div class="item-content">
                         <div class="item-media"><i class="icon fa fa-info-circle"></i></div>
                         <div class="item-inner">
-                            <div id="about" class="item-title label">About</div>
+                            <div class="item-title label">About</div>
+                        </div>
+                    </div>
+                </li>
+                <li id="home">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon fa fa-home"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">Home</div>
                         </div>
                     </div>
                 </li>
@@ -117,7 +125,7 @@
                                                 </div>
                                             </div>
                                             <div class="item-input">
-                                                <input id="sliderVal" type="text" readonly>
+                                                <input id="sliderVal" type="text" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -165,7 +173,7 @@
                 </div>
             </div>
 
-            <!-- Bottom Toolbar on every view -->
+            <!-- Bottom Toolbar on every view unless no-toolbar specified (see item.html)-->
             <div class="toolbar">
                 <div class="toolbar-inner">
                     <a href="http://www.idangero.us/framework7" class="link external">Powered by Framework7</a>
@@ -288,21 +296,21 @@
             </ul>
         </div>
         <div class="content-block-title">Preview</div>
-        <div class="content-block inset scroll">
+        <div class="content-block inset">
             <div class="content-block-inner">
                 <div id="previewAudio">
                     <audio controls preload src="{{previewUrl}}"></audio>
                 </div>
                 <div id="previewVideo">
-                    <video controls type="video/mp4" src="{{previewUrl}}" width="250" height="150"></video>
+                    <video controls type="video/mp4" src="{{previewUrl}}" width="250" height="78"></video>
                 </div>
-                <div id="desc">
+                <div id="desc" class="scroll">
                     <p>{{description}}</p>
                 </div>
             </div>
         </div>
 
-        <div class="card-footer bottom">
+        <div class="card-footer">
             <a id="like" href="#" class="item-media link"><i class="icon fa fa-thumbs-up fa-2x"></i> </a>
             <a href="#" class="share item-media link"><i class="icon fa fa-external-link fa-2x"></i></a>
         </div>
