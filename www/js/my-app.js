@@ -188,7 +188,7 @@ $$(document).on('click', '#settings', function (e) {
     alert('Show Settings');
 });
 $$(document).on('click', '#home', function (e) {
-    mainView.router.load({url: 'index.html'});
+    //mainView.router.load({url: 'index.html'}); // need to fix, causes issues on mobile only when try to re-search again
     myApp.closePanel();
 
 });
