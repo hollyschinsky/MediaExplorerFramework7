@@ -188,7 +188,7 @@ $$(document).on('click', '#settings', function (e) {
     alert('Show Settings');
 });
 $$(document).on('click', '#home', function (e) {
-    // The above will auto close panel but not if we use the loader above - have to specify close
+    mainView.router.load({url: 'index.html'});
     myApp.closePanel();
-    mainView.router.load({pageName: 'index'});
+
 });
