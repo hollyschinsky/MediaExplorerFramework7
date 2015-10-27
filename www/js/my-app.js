@@ -6,6 +6,7 @@ var myApp = new Framework7({
 })
 // Export selectors engine (jQuery ish )
 var $$ = Dom7;
+console.log("Main View " + mainView);
 
 // Add views - this app uses only a main view stack
 var mainView = myApp.addView('.view-main', {
@@ -137,7 +138,9 @@ myApp.onPageInit('media', function (page) {
 $$(document).on('input change', 'input[type="range"]', function (e) {
     $$('input#sliderVal').val(this.value);
 })
-
+$$('.page[data-page="index"] .color-green').on('click', function (e) {
+    console.log("CLICKED!!!")
+})
 /*
     Search Submit Button
     - This function calls the iTunes Search API with the designated search options then makes an ajax call to load the list
@@ -150,14 +153,21 @@ $$(document).on('click', '#btnSearch', function (e) {
     }
     else {
         mediaResults = {};
-        //var explicit = $$("#explicit").val() == "on" ? 'yes' : 'no'; // always returning on, why? Bug in f7?
-        var explicit = $$("#explicit")[0].checked ? 'yes' : 'no';
+        var explicit = $$("#explicit:checked").val() =='on' ? 'yes' : 'no';
         var mediaType = $$("input[name='ks-radio']:checked").val()
         var numResults = $$("#numResults").val()
         var url = "https://itunes.apple.com/search?entity=" + mediaType + "&term=" + term + "&explicit=" + explicit + "&limit=" + numResults + "&callback=?";
-        $$.getJSON(url, function (resp) {
-            mediaResults = resp.results;
-            mainView.router.load({url: 'list.html'});
+        console.log("URL " + url);
+        $$.ajax({
+            dataType: 'json',
+            url: url,
+            success: function (resp) {
+                mediaResults = resp.results;
+                mainView.router.load({url: 'list.html'});
+            },
+            error: function (xhr) {
+                console.log("ERROR " + xhr);
+            }
         });
     }
 })
@@ -178,7 +188,7 @@ $$(document).on('click', '#settings', function (e) {
     alert('Show Settings');
 });
 $$(document).on('click', '#home', function (e) {
-    mainView.router.load({pageName: 'index'});
     // The above will auto close panel but not if we use the loader above - have to specify close
     myApp.closePanel();
+    mainView.router.load({pageName: 'index'});
 });
