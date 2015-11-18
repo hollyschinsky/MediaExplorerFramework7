@@ -2,8 +2,6 @@ Template7.registerHelper('stringify', function (context){
     var str = JSON.stringify(context);
     // Need to replace any single quotes in the data with the HTML char to avoid string being cut short
     return str.split("'").join('&#39;');
-    return str;
-
 });
 
 // Initialize your app
@@ -170,7 +168,7 @@ $$(document).on('click', '#settings', function (e) {
 });
 
 $$(document).on('click', '#home', function (e) {
-    mainView.router.reload({url: 'index.html'}); // need to fix, causes issues on mobile only when try to re-search again
+    mainView.router.load({url: 'index.html'}); // need to fix, causes issues on mobile only when try to re-search again
     myApp.closePanel();
 
 });
