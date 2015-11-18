@@ -1,48 +1,41 @@
+
+Template7.registerHelper('stringify', function (context){
+    var str = JSON.stringify(context);
+
+    // If any of the item data has a single quote it will cause the string to be cut short since data-context='' in the index.html (but can't use
+    // double quotes either for same reason. Simply need to replace any single quotes found with the HTML char for single quote.
+    return str.split("'").join('&#39;');
+    return str;
+
+});
+
 // Initialize your app
 var myApp = new Framework7({
-    precompileTemplates: true
-
-
+    precompileTemplates: true,
+    template7Pages: true, // need to set this
+    modalTitle: "iTunes Media Explorer"
 })
+
 // Export selectors engine (jQuery ish )
 var $$ = Dom7;
-console.log("Main View " + mainView);
 
 // Add views - this app uses only a main view stack
 var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 
-var mediaResults = {};
 $$('input#sliderVal').val('25');
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
-    // Override default HTML alert with native dialog
-    if (navigator.notification) {
-        window.alert = function (message) {
-            navigator.notification.alert(
-                message,                // message
-                null,                   // callback
-                "iTunes Media Explorer", // title
-                'OK'                    // buttonName
-            );
-        };
-    } else console.log("Using default alerts, dialogs plugin (notification class) was not found.");
-
 });
 
-
-/*
-    Media List Page Handling
- */
+/* Media List Page Handling */
 myApp.onPageInit('list', function (page) {
-    // Load the template with the media data and append it to the HTML (list.html)
-    $$('.page[data-page="list"] .page-content .list-block').html(Template7.templates.listTemplate(mediaResults));
-    $$('.share').on('click', function (e) {
-        idx = e.target.dataset.item;
-        var item = mediaResults[idx];
+    $$(page.container).find('.share').on('click', function (e) {
+        e.stopPropagation();
+        var item = page.context[this.dataset.item]; //this.dataset.item returns data held in data-item attribute set in template
 
         if (window.plugins && window.plugins.socialsharing) {
             var name = item.trackName==null?item.collectionName: item.trackName;
@@ -56,39 +49,36 @@ myApp.onPageInit('list', function (page) {
                 });
         }
         else console.log("Share plugin not found");
-
     });
+
     $$('.preview').on('click', function (e) {
-        idx = e.target.dataset.item;
-        var item = mediaResults[idx];
+        e.stopPropagation();
+        var item = page.context[this.dataset.item]; //this.dataset.item returns data held in data-item attribute set in template
+
         var name = item.trackName==null?item.collectionName: item.trackName;
-        alert("Previewing " + name);
-        var media = new Media(item.previewUrl,  function () {console.log("Media Success");},function (error) {console.log("Media fail " + error)},null);
+        myApp.alert("Previewing " + name);
+        var media = new Media(item.previewUrl, function () {console.log("Media Success");},function (error) {console.log("Media fail " + error)},null);
         media.play();
         setTimeout(function() {
             media.stop()},7000)
     });
+
     $$('.favorite').on('click', function (e) {
-        idx = e.target.dataset.item;
-        var item = mediaResults[idx];
+        e.stopPropagation();
+        var item = page.context[this.dataset.item]; //this.dataset.item returns data held in data-item attribute set in template
+
         var name = item.trackName==null?item.collectionName: item.trackName;
-        alert(name + ' added to favorites!');
+        myApp.alert(name + ' added to favorites!');
     });
 
 });
 
-/*
-    Media Item Page Handling
- */
+/* Media Item Page Handling */
 myApp.onPageInit('media', function (page) {
-    var itemIdx = page.query.itemNum;
-    var item = mediaResults[itemIdx];
+    var item = page.context;
 
     if (item.trackPrice==undefined)
         item.trackPrice = item.collectionPrice;
-
-    // Load the template with the item clicked and append it to the HTML (item.html)
-    $$('.page[data-page="media"] .page-content .list-block').html( Template7.templates.itemTemplate(item));
 
 
     if (item.kind=='song') {
@@ -106,9 +96,8 @@ myApp.onPageInit('media', function (page) {
         $$("#desc").addClass('show');
         $$("#previewAudio").addClass('show');
         $$("#previewVideo").addClass('hide');
-
     }
-    $$('.share').on('click', function (e) {
+    $$(page.container).find('.share').on('click', function (e) {
         if (window.plugins && window.plugins.socialsharing) {
             var name = item.trackName==null?item.collectionName: item.trackName;
             window.plugins.socialsharing.share("Hey! Check out this " + item.kind + " I like " + name + ".",
@@ -121,14 +110,11 @@ myApp.onPageInit('media', function (page) {
                 });
         }
         else console.log("Share plugin not found");
-
     });
     $$('#like').on('click', function (e) {
         var name = item.trackName==null?item.collectionName: item.trackName;
-        console.log("Liking " + name);
-        alert("I like " + name);
+        myApp.alert("I like " + name);
     })
-
 });
 
 /*
@@ -141,6 +127,7 @@ $$(document).on('input change', 'input[type="range"]', function (e) {
 $$('.page[data-page="index"] .color-green').on('click', function (e) {
     console.log("CLICKED!!!")
 })
+
 /*
     Search Submit Button
     - This function calls the iTunes Search API with the designated search options then makes an ajax call to load the list
@@ -149,46 +136,44 @@ $$('.page[data-page="index"] .color-green').on('click', function (e) {
 $$(document).on('click', '#btnSearch', function (e) {
     var term = $$("#term").val();
     if (term.length==0) {
-        alert("Please enter a search term.");
+        myApp.alert("Please enter a search term.");
     }
     else {
-        mediaResults = {};
         var explicit = $$("#explicit:checked").val() =='on' ? 'yes' : 'no';
         var mediaType = $$("input[name='ks-radio']:checked").val()
         var numResults = $$("#numResults").val()
         var url = "https://itunes.apple.com/search?entity=" + mediaType + "&term=" + term + "&explicit=" + explicit + "&limit=" + numResults + "&callback=?";
-        console.log("URL " + url);
         $$.ajax({
             dataType: 'json',
             url: url,
             success: function (resp) {
-                mediaResults = resp.results;
-                mainView.router.load({url: 'list.html'});
+                mainView.router.load({
+                    template: Template7.templates.listTemplate,
+                    context: resp.results
+                });
             },
             error: function (xhr) {
-                console.log("ERROR " + xhr);
+                console.log("Error on ajax call " + xhr);
             }
         });
     }
 })
 
-/*
-    Menu Handlers
-*/
-
+/* Menu Handlers */
 $$(document).on('click', '#favorites', function (e) {
-    alert('Show my favorites');
+    myApp.alert('Show my favorites');
 });
 
 $$(document).on('click', '#about', function (e) {
-    alert('Show About');
+    myApp.alert('Show About');
 });
 
 $$(document).on('click', '#settings', function (e) {
-    alert('Show Settings');
+    myApp.alert('Show Settings');
 });
+
 $$(document).on('click', '#home', function (e) {
-    //mainView.router.load({url: 'index.html'}); // need to fix, causes issues on mobile only when try to re-search again
+    mainView.router.reload({url: 'index.html'}); // need to fix, causes issues on mobile only when try to re-search again
     myApp.closePanel();
 
 });
