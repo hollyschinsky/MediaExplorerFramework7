@@ -9,12 +9,12 @@
 
     <link rel="stylesheet" href="lib/framework7/css/framework7.ios.min.css">
     <link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.min.css">
+
     <!-- Using font-awesome library for icons -->
     <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/my-app.css">
 </head>
 
-<!--<body class="theme-green layout-dark">-->
 <body class="layout-dark">
     <!-- Status bar overlay for iOS7 issue - see my-app.css for background color setting and config.xml -->
     <div class="statusbar-overlay"></div>
@@ -190,132 +190,182 @@
     <!--------------------------->
     <!--   TEMPLATES SECTION  --->
     <!--------------------------->
-
     <!-- Media List Template  -->
+
     <script id="listTemplate" type="text/template7">
-        <ul>
-            {{#each this}}
-            <li class="swipeout">
-                <div class="swipeout-content">
-                    <a href='item.html?itemNum={{@index}}' class="item-content item-link">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="left"><a href="#" class="back link"> <i class="icon icon-back"></i><span>Back</span></a></div>
+                <div class="center sliding">Media List</div>
+                <div class="right">
+                    <a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a>
+                </div>
+            </div>
+        </div>
+        <!-- Search bar -->
 
-                        <div class="item-media">
-                            <img src="{{artworkUrl60}}" class="lazy">
-                        </div>
+        <div class="page" data-page="list">
+            <form class="searchbar searchbar-init" data-search-list=".list-block-search" data-search-in=".item-title"
+                  data-searchbar-found=".searchbar-found" data-searchbar-not-found=".searchbar-not-found">
+                <div class="searchbar-input">
+                    <input type="search" placeholder="Search">
+                    <a href="#" class="searchbar-clear"></a>
+                </div>
+                <a href="#" class="searchbar-cancel">Cancel</a>
+            </form>
+            <div class="searchbar-overlay"></div>
+            <div class="page-content">
+                <!-- no result -->
+                <div class="content-block searchbar-not-found">
+                    Nothing found
+                </div>
 
-                        <div class="item-inner">
-                            <div class="item-title-row">
-                                <div class="item-title">{{trackName}}</div>
+                <div id="mediaList" class="list-block media-list list-block-search searchbar-found">
+                    <ul>
+                        {{#each this}}
+                        <li class="swipeout">
+                            <div class="swipeout-content">
+                                <a href='#' id='mediaItem{{@index}}' data-template='itemTemplate' data-context='{{stringify this}}'
+                                   class="item-content item-link">
 
-                                {{#if trackPrice>-1}}
-                                    <div class="item-after">${{trackPrice}}</div>
-                                {{else}}
-                                    <div class="item-after">${{collectionPrice}}</div>
-                                {{/if}}
+                                    <div class="item-media">
+                                        <img data-src="{{artworkUrl60}}" class="lazy">
+                                    </div>
 
+                                    <div class="item-inner">
+                                        <div class="item-title-row">
+                                            <div class="item-title">{{trackName}}</div>
+                                            {{#if trackPrice>-1}}
+                                            <div class="item-after">${{trackPrice}}</div>
+                                            {{else}}
+                                            <div class="item-after">${{collectionPrice}}</div>
+                                            {{/if}}
+                                        </div>
+                                        <div class="item-subtitle">{{artistName}}</div>
+                                        <div class="item-text">{{collectionName}}</div>
+                                    </div>
+
+                                </a>
                             </div>
-                            <div class="item-subtitle">{{artistName}}</div>
-                            <div class="item-text">{{collectionName}}</div>
-                        </div>
-                    </a>
+                            <div class="swipeout-actions-right">
+                                <a href="#" class="bg-orange favorite" data-item="{{@index}}"><i class="icon fa fa-star fa-2x"></i></a>
+                                <a href="#" class="bg-blue share" data-item="{{@index}}"><i class="icon fa fa-share fa-2x"></i></a>
+                            </div>
+                            <div class="swipeout-actions-left">
+                                <a href="#" class="bg-green preview" data-item="{{@index}}"><i class="icon fa fa-play fa-2x"></i></a>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
                 </div>
-
-                <div class="swipeout-actions-right">
-                    <a href="#" class="bg-orange"><i class="icon fa fa-star fa-2x favorite" data-item="{{@index}}"></i></a>
-                    <a href="#" class="bg-blue"><i class="icon fa fa-share fa-2x share" data-item="{{@index}}"></i></a>
-                </div>
-                <div class="swipeout-actions-left">
-                    <a href="#" class="bg-green"><i class="icon fa fa-play fa-2x preview" data-item="{{@index}}"></i></a>
-                </div>
-            </li>
-            {{/each}}
-        </ul>
+            </div>
+        </div>
     </script>
 
-    <!-- Media Item Template -->
+
     <script id="itemTemplate" type="text/template7">
-        <ul>
-            <li>
-                <div class="item-content">
-                    <div class="item-media"><img src="{{artworkUrl60}}" class="lazy"/></div>
-                    <div class="item-inner">
-                        <div class="item-title">{{trackName}}</div>
-                    </div>
-                </div>
-
-                <div class="item-content">
-                    <div class="item-inner">
-                        <div class="item-title label">Type</div>
-                        <div class="item-title label">{{kind}}</div>
-                    </div>
-                </div>
-            </li>
-
-            <li>
-                <div class="item-content">
-                    <div class="item-inner">
-                        <div class="item-title label">Artist</div>
-                        <div class="item-title label">{{artistName}}</div>
-                    </div>
-                </div>
-            </li>
-
-            <li>
-                <div class="item-content">
-                    <div class="item-inner">
-                        <div class="item-title label">Price</div>
-                        {{#if trackPrice>-1}}
-                        <div class="item-title label">${{trackPrice}}</div>
-                        {{else}}
-                        <div class="item-title label">${{collectionPrice}}</div>
-                        {{/if}}
-                    </div>
-                </div>
-            </li>
-        </ul>
-        <div class="content-block-title">Collection Details</div>
-        <div class="list-block">
-            <ul>
-                <li>
-                    <div class="item-content">
-                        <div class="item-inner">
-                            <div class="item-title label">Collection</div>
-                            <div class="item-title label">{{collectionName}}</div>
-                        </div>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="item-content">
-                        <div class="item-inner">
-                            <div class="item-title label">Genre</div>
-                            <div class="item-title label">{{primaryGenreName}}</div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="content-block-title">Preview</div>
-        <div class="content-block inset">
-            <div class="content-block-inner">
-                <div id="previewAudio">
-                    <audio controls preload src="{{previewUrl}}"></audio>
-                </div>
-                <div id="previewVideo">
-                    <video controls type="video/mp4" src="{{previewUrl}}" width="250" height="78"></video>
-                </div>
-                <div id="desc" class="scroll">
-                    <p>{{description}}</p>
+        <!-- Navbar for this view -->
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="left"><a href="#" class="back link"> <i class="icon icon-back"></i><span>Back</span></a></div>
+                <div class="center sliding">Item Detail</div>
+                <div class="right">
+                    <a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a>
                 </div>
             </div>
         </div>
 
-        <div class="card-footer">
-            <a id="like" href="#" class="item-media link"><i class="icon fa fa-thumbs-up fa-2x"></i> </a>
-            <a href="#" class="share item-media link"><i class="icon fa fa-external-link fa-2x"></i></a>
-        </div>
+        <div data-page="media" class="page no-toolbar">
+            <div class="page-content">
+                <div class="content-block-title">Media Details</div>
+                <div class="list-block">
+                    <!-- item template content gets appended here -->
 
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><img data-src="{{artworkUrl60}}" class="lazy"/></div>
+                            <div class="item-inner">
+                                <div class="item-title">{{trackName}}</div>
+                            </div>
+                        </div>
+
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">Type</div>
+                                <div class="item-title label">{{kind}}</div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">Artist</div>
+                                <div class="item-title label">{{artistName}}</div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">Price</div>
+                                {{#if trackPrice>-1}}
+                                <div class="item-title label">${{trackPrice}}</div>
+                                {{else}}
+                                <div class="item-title label">${{collectionPrice}}</div>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="content-block-title">Collection Details</div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">Collection</div>
+                                    <div class="item-title label">{{collectionName}}</div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">Genre</div>
+                                    <div class="item-title label">{{primaryGenreName}}</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title">Preview</div>
+                <div class="content-block inset">
+                    <div class="content-block-inner">
+                        <div id="previewAudio">
+                            <audio controls preload src="{{previewUrl}}"></audio>
+                        </div>
+                        <div id="previewVideo">
+                            <video controls type="video/mp4" src="{{previewUrl}}" width="250" height="78"></video>
+                        </div>
+                        <div id="desc" class="scroll">
+                            <p>{{description}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <a id="like" href="#" class="item-media link"><i class="icon fa fa-thumbs-up fa-2x"></i> </a>
+                    <a href="#" class="share item-media link"><i class="icon fa fa-external-link fa-2x"></i></a>
+                </div>
+                </div>
+            </div>
+        </div>
     </script>
+
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
     <script type="text/javascript" src="js/my-app.js"></script>
