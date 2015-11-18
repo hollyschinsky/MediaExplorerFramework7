@@ -1,9 +1,6 @@
-
 Template7.registerHelper('stringify', function (context){
     var str = JSON.stringify(context);
-
-    // If any of the item data has a single quote it will cause the string to be cut short since data-context='' in the index.html (but can't use
-    // double quotes either for same reason. Simply need to replace any single quotes found with the HTML char for single quote.
+    // Need to replace any single quotes in the data with the HTML char to avoid string being cut short
     return str.split("'").join('&#39;');
     return str;
 
