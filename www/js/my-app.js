@@ -90,7 +90,7 @@ myApp.onPageInit('media', function (page) {
         item.kind ='audio book';
         $$("#desc").addClass('show');
         $$("#previewAudio").addClass('show');
-        $$("#previewVideo").addClass('hide');
+        $$("#previewVideo").addClass('hfide');
     }
     $$(page.container).find('.share').on('click', function (e) {
         if (window.plugins && window.plugins.socialsharing) {
@@ -118,9 +118,6 @@ myApp.onPageInit('media', function (page) {
 */
 $$(document).on('input change', 'input[type="range"]', function (e) {
     $$('input#sliderVal').val(this.value);
-})
-$$('.page[data-page="index"] .color-green').on('click', function (e) {
-    console.log("CLICKED!!!")
 })
 
 /*
@@ -170,5 +167,4 @@ $$(document).on('click', '#settings', function (e) {
 $$(document).on('click', '#home', function (e) {
     mainView.router.load({url: 'index.html'}); // need to fix, causes issues on mobile only when try to re-search again
     myApp.closePanel();
-
 });
