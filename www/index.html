@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; script-src * 'unsafe-eval'; style-src 'self';
+        media-src *; frame-src *;  img-src * data:;">
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
     <title>iTunes Media Explorer</title>
 
     <link rel="stylesheet" href="lib/framework7/css/framework7.ios.min.css">
@@ -173,7 +181,7 @@
                 </div>
             </div>
 
-            <!-- Bottom Toolbar on every view unless no-toolbar specified (see item.html)-->
+            <!-- Bottom Toolbar on every view unless no-toolbar specified -->
             <div class="toolbar">
                 <div class="toolbar-inner">
                     <a href="http://www.idangero.us/framework7" class="link external">Powered by Framework7</a>
